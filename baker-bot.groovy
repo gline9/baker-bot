@@ -111,6 +111,7 @@ def handleMessageEvent(Map params)
     def people = message.findAll(/<@(\w+)>/, {_, it -> it}).unique()
 
     people -= params.botId
+    people -= params.message.user
 
     def total = 0
 
