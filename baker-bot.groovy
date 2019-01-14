@@ -21,12 +21,32 @@ def emojiList = [
     ':birthday:'
 ];
 
-def personTotals = json.parseText(new File('/baker-bot/data/data.json').text).withDefault { [:].withDefault {0} }
+def data = new File('/baker-bot/data/data.json')
+
+def rawData;
+if (data.exists())
+{
+    rawData = json.parseText(data)
+}
+else
+{
+    rawData = [:]
+}
+
+def personTotals = rawData.withDefault { [:].withDefault {0} }
 
 // Foobar
 
 addShutdownHook {
-    new File('/baker-bot/data/data.json').text = JsonOutput.toJson(personTotals)
+    def outputFile = new File('/baker-bot/data/data.json');
+
+    if (!outputFile.exists())
+    {
+        outputFile.getParentFile().mkdirs()
+        outputFile.createNewFile()
+    }
+
+    outputFile.text = JsonOutput.toJson(personTotals)
 }
 
 println "starting rtm client"
