@@ -19,7 +19,8 @@ def emojiList = [
     ':doughnut:',
     ':pie:',
     ':cake:',
-    ':birthday:'
+    ':birthday:',
+    ':croissant:'
 ];
 
 def data = new File('/baker-bot/data/data.json')
