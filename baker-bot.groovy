@@ -21,7 +21,7 @@ def emojiList = [
     ':birthday:'
 ];
 
-def personTotals = [:].withDefault { [:].withDefault {0} }
+def personTotals = json.parseText(new File('/baker-bot/data/data.json')).withDefault { [:].withDefault {0} }
 
 // Foobar
 
