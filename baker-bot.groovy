@@ -10,7 +10,6 @@ import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
 def json = new JsonSlurper()
-
 def token = System.getenv("SLACK_API_TOKEN")
 def slack = Slack.getInstance()
 
