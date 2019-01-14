@@ -6,6 +6,7 @@ import com.github.seratch.jslack.shortcut.Shortcut
 import com.github.seratch.jslack.shortcut.model.*
 import com.github.seratch.jslack.api.methods.request.chat.*
 import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 
 def json = new JsonSlurper()
 
@@ -21,6 +22,10 @@ def emojiList = [
 ];
 
 def personTotals = [:].withDefault { [:].withDefault {0} }
+
+addShutdownHook {
+    new File('/baker-bot/data/data.json').text = JsonOutput.toJson(personTotals)
+}
 
 println "starting rtm client"
 slack.rtm(System.getenv("SLACK_API_TOKEN")).withCloseable {
