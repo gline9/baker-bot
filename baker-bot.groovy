@@ -5,6 +5,7 @@ import com.github.seratch.jslack.Slack
 import com.github.seratch.jslack.shortcut.Shortcut
 import com.github.seratch.jslack.shortcut.model.*
 import com.github.seratch.jslack.api.methods.request.chat.*
+import com.github.seratch.jslack.api.methods.request.bots.*
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
@@ -26,7 +27,7 @@ def data = new File('/baker-bot/data/data.json')
 def rawData;
 if (data.exists())
 {
-    rawData = json.parseText(data)
+    rawData = json.parseText(data.text)
 }
 else
 {
@@ -171,7 +172,8 @@ def getBotUserID(slack, token)
 {
     def response = slack.methods().botsInfo(BotsInfoRequest.builder()
         .token(token)
-        .bot('baker-bot'))
+        .bot('baker-bot')
+        .build())
 
     response.bot.userId
 }
