@@ -1,0 +1,6 @@
+FROM groovy:alpine
+
+USER root
+
+RUN apk add git
+
