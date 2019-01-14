@@ -120,7 +120,7 @@ def sendTotalInformation(Map params)
 
     def message = personList.join('\n')
 
-    replyTo(params, "The total is:\n$message")
+    replyTo(params, "Totals:\n$message")
 }
 
 def replyTo(Map params, message)
