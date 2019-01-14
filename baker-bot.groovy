@@ -175,6 +175,7 @@ def getBotUserID(slack, token)
         .bot('baker-bot')
         .build())
 
+    println response.dump()
     response.bot.userId
 }
 
