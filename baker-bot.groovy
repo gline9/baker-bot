@@ -23,6 +23,8 @@ def emojiList = [
 
 def personTotals = [:].withDefault { [:].withDefault {0} }
 
+// Foobar
+
 addShutdownHook {
     new File('/baker-bot/data/data.json').text = JsonOutput.toJson(personTotals)
 }
