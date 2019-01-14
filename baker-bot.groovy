@@ -35,6 +35,8 @@ else
 
 def personTotals = rawData.withDefault { [:].withDefault {0} }
 
+def botUserId = getBotUserID(slack, token)
+
 // Foobar
 
 addShutdownHook {
@@ -66,7 +68,8 @@ slack.rtm(System.getenv("SLACK_API_TOKEN")).withCloseable {
                 slack: slack,
                 emojis: emojiList,
                 totals: personTotals,
-                apiToken: token
+                apiToken: token,
+                botId: botUserId
             ]
 
             switch (message.type)
@@ -100,13 +103,15 @@ def handleMessageEvent(Map params)
 
     def message = params.message.text
 
-    if (message.contains('totals'))
+    if (message.contains('totals') && message.contains("<@$params.botId>"))
     {
         sendTotalInformation(params)
         return
     }
 
     def people = message.findAll(/<@(\w+)>/, {_, it -> it}).unique()
+
+    people -= params.botId
 
     def total = 0
 
@@ -160,6 +165,15 @@ def replyTo(Map params, message)
         .text(message)
         .iconEmoji(':male-cook:')
         .build())
+}
+
+def getBotUserID(slack, token)
+{
+    def response = slack.methods().botsInfo(BotsInfoRequest.builder()
+        .token(token)
+        .bot('baker-bot'))
+
+    response.bot.userId
 }
 
 // println "Acquiring shortcut"
