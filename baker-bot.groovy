@@ -38,8 +38,6 @@ def personTotals = rawData.withDefault { [:].withDefault {0} }
 
 def botUserId = getBotUserID(slack, token)
 
-// Foobar
-
 addShutdownHook {
     def outputFile = new File('/baker-bot/data/data.json');
 
@@ -178,10 +176,3 @@ def getBotUserID(slack, token)
     println response.dump()
     response.bot.userId
 }
-
-// println "Acquiring shortcut"
-// Shortcut shortcut = slack.shortcut(token);
-
-// println "Posting to channel"
-// shortcut.post(ChannelName.of("general"), "hello world");
-
