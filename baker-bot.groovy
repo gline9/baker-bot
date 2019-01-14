@@ -172,7 +172,7 @@ def getBotUserID(slack, token)
 {
     def response = slack.methods().botsInfo(BotsInfoRequest.builder()
         .token(token)
-        .bot('bakerbot')
+        .bot('AFC9C3RKM')
         .build())
 
     println response.dump()
