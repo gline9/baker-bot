@@ -38,7 +38,6 @@ else
 def personTotals = rawData.withDefault { [:].withDefault {0} }
 
 //def botUserId = getBotUserID(slack, token)
-getBotUserID(slack, token)
 
 addShutdownHook {
     def outputFile = new File('/baker-bot/data/data.json');
@@ -63,6 +62,7 @@ slack.rtm(System.getenv("SLACK_API_TOKEN")).withCloseable {
             def message = json.parseText(jsonMessage)
 
             println "Handling message: $message"
+            println trm.dump()
 
             def params = [
                 message: message,
@@ -188,12 +188,12 @@ def isBot(Map params, user)
     return response.user.bot
 }
 
-def getBotUserID(slack, token)
-{
-    def response = slack.methods().usersIdentity(UsersIdentityRequest.builder()
-        .token(token)
-        .build())
+// def getBotUserID(slack, token)
+// {
+//     def response = slack.methods().usersIdentity(UsersIdentityRequest.builder()
+//         .token(token)
+//         .build())
 
-    println response.dump()
-    // response.bot.userId
-}
+//     println response.dump()
+//     // response.bot.userId
+// }
