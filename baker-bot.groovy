@@ -36,7 +36,7 @@ else
 
 def personTotals = rawData.withDefault { [:].withDefault {0} }
 
-def botUserId = getBotUserID(slack, token)
+//def botUserId = getBotUserID(slack, token)
 
 addShutdownHook {
     def outputFile = new File('/baker-bot/data/data.json');
@@ -67,8 +67,8 @@ slack.rtm(System.getenv("SLACK_API_TOKEN")).withCloseable {
                 slack: slack,
                 emojis: emojiList,
                 totals: personTotals,
-                apiToken: token,
-                botId: botUserId
+                apiToken: token
+                //botId: botUserId
             ]
 
             switch (message.type)
@@ -102,16 +102,20 @@ def handleMessageEvent(Map params)
 
     def message = params.message.text
 
-    if (message.contains('totals') && message.contains("<@$params.botId>"))
-    {
-        sendTotalInformation(params)
-        return
-    }
+    // if (message.contains('totals') && message.contains("<@$params.botId>"))
+    // {
+    //     sendTotalInformation(params)
+    //     return
+    // }
 
     def people = message.findAll(/<@(\w+)>/, {_, it -> it}).unique()
 
-    people -= params.botId
+    // people -= params.botId
     people -= params.message.user
+
+    people.forEach {
+        getUserInfo(params, it)
+    }
 
     def total = 0
 
@@ -144,7 +148,13 @@ def sendTotalInformation(Map params)
 
         def emojiList = emojis.collect {
             emoji, count ->
-            emoji * count
+
+            if (count > 5)
+            {
+                return emoji + "\u00D7" + count
+            }
+
+            return emoji * count
         }
 
         "<@$person> ${emojiList.sort().join('')}"
@@ -167,13 +177,22 @@ def replyTo(Map params, message)
         .build())
 }
 
-def getBotUserID(slack, token)
+def getUserInfo(Map params, user)
 {
-    def response = slack.methods().botsInfo(BotsInfoRequest.builder()
-        .token(token)
-        .bot('BFDQ9B370')
-        .build())
+    def response = slack.methods().usersInfo(UsersInfoRequest.builder()
+        .token(params.apiToken)
+        .user(user))
 
     println response.dump()
-    response.bot.userId
 }
+
+//def getBotUserID(slack, token)
+//{
+    //def response = slack.methods().botsInfo(BotsInfoRequest.builder()
+        //.token(token)
+        //.bot('BFDQ9B370')
+        //.build())
+
+    //println response.dump()
+    //response.bot.userId
+//}
