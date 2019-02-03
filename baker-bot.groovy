@@ -6,6 +6,7 @@ import com.github.seratch.jslack.shortcut.Shortcut
 import com.github.seratch.jslack.shortcut.model.*
 import com.github.seratch.jslack.api.methods.request.chat.*
 import com.github.seratch.jslack.api.methods.request.bots.*
+import com.github.seratch.jslack.api.methods.request.users.*
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
