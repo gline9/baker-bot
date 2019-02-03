@@ -152,7 +152,7 @@ def sendTotalInformation(Map params)
 
             if (count > 5)
             {
-                return emoji + "\u00D7" + count
+                return "$emoji \u00D7 $count"
             }
 
             return emoji * count
