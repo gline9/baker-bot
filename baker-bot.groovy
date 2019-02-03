@@ -38,6 +38,7 @@ else
 def personTotals = rawData.withDefault { [:].withDefault {0} }
 
 //def botUserId = getBotUserID(slack, token)
+getBotUserID(slack, token)
 
 addShutdownHook {
     def outputFile = new File('/baker-bot/data/data.json');
@@ -103,11 +104,11 @@ def handleMessageEvent(Map params)
 
     def message = params.message.text
 
-    // if (message.contains('totals') && message.contains("<@$params.botId>"))
-    // {
-    //     sendTotalInformation(params)
-    //     return
-    // }
+    if (message.contains('totals') && message.contains("<@$params.botId>"))
+    {
+        sendTotalInformation(params)
+        return
+    }
 
     def people = message.findAll(/<@(\w+)>/, {_, it -> it}).unique()
 
@@ -187,13 +188,12 @@ def isBot(Map params, user)
     return response.user.bot
 }
 
-//def getBotUserID(slack, token)
-//{
-    //def response = slack.methods().botsInfo(BotsInfoRequest.builder()
-        //.token(token)
-        //.bot('BFDQ9B370')
-        //.build())
+def getBotUserID(slack, token)
+{
+    def response = slack.methods().usersIdentity(UsersIdentityRequest.builder()
+        .token(token)
+        .build())
 
-    //println response.dump()
-    //response.bot.userId
-//}
+    println response.dump()
+    // response.bot.userId
+}
