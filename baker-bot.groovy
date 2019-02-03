@@ -182,7 +182,7 @@ def getUserInfo(Map params, user)
 {
     def response = params.slack.methods().usersInfo(UsersInfoRequest.builder()
         .token(params.apiToken)
-        .user(user))
+        .user(user).build())
 
     println response.dump()
 }
