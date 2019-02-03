@@ -7,6 +7,7 @@ import com.github.seratch.jslack.shortcut.model.*
 import com.github.seratch.jslack.api.methods.request.chat.*
 import com.github.seratch.jslack.api.methods.request.bots.*
 import com.github.seratch.jslack.api.methods.request.users.*
+import com.github.seratch.jslack.api.methods.request.auth.*
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
@@ -188,12 +189,12 @@ def isBot(Map params, user)
     return response.user.bot
 }
 
-// def getBotUserID(slack, token)
-// {
-//     def response = slack.methods().usersIdentity(UsersIdentityRequest.builder()
-//         .token(token)
-//         .build())
+def getBotUserID(slack, token)
+{
+    def response = slack.methods().authTest(AuthTestRequest.builder()
+        .token(token)
+        .build())
 
-//     println response.dump()
-//     // response.bot.userId
-// }
+    println response.dump()
+    // response.bot.userId
+}
