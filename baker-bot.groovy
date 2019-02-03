@@ -62,7 +62,7 @@ slack.rtm(System.getenv("SLACK_API_TOKEN")).withCloseable {
             def message = json.parseText(jsonMessage)
 
             println "Handling message: $message"
-            println trm.dump()
+            println rtm.dump()
 
             def params = [
                 message: message,
