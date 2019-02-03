@@ -179,7 +179,7 @@ def replyTo(Map params, message)
 
 def getUserInfo(Map params, user)
 {
-    def response = slack.methods().usersInfo(UsersInfoRequest.builder()
+    def response = params.slack.methods().usersInfo(UsersInfoRequest.builder()
         .token(params.apiToken)
         .user(user))
 
