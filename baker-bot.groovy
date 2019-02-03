@@ -114,8 +114,8 @@ def handleMessageEvent(Map params)
     // people -= params.botId
     people -= params.message.user
 
-    people.forEach {
-        getUserInfo(params, it)
+    people.removeAll {
+        isBot(params, it)
     }
 
     def total = 0
@@ -178,13 +178,13 @@ def replyTo(Map params, message)
         .build())
 }
 
-def getUserInfo(Map params, user)
+def isBot(Map params, user)
 {
     def response = params.slack.methods().usersInfo(UsersInfoRequest.builder()
         .token(params.apiToken)
         .user(user).build())
 
-    println response.dump()
+    return response.user.bot
 }
 
 //def getBotUserID(slack, token)
